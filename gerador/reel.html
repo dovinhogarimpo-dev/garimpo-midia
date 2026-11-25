@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Bodoni;src:url(fonts/bm-400.woff2);font-weight:400}
+@font-face{font-family:Bodoni;src:url(fonts/bm-500.woff2);font-weight:500}
+@font-face{font-family:Bodoni;src:url(fonts/bm-400i.woff2);font-weight:400;font-style:italic}
+@font-face{font-family:Bodoni;src:url(fonts/bm-500i.woff2);font-weight:500;font-style:italic}
+@font-face{font-family:Sans;src:url(fonts/is-400.woff2);font-weight:400}
+@font-face{font-family:Sans;src:url(fonts/is-600.woff2);font-weight:600}
+:root{--bg:#120509;--gold:#D4B06A;--ivory:#F4EDE4;--muted:#B8A49C;--wine:#8E1F3B;--ink:#1E0A11;--pm:#6E5A52}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:Sans;color:var(--ivory)}
+.glow{position:absolute;border-radius:50%;filter:blur(40px)}
+#g1{width:1500px;height:1500px;left:120px;top:-520px;background:radial-gradient(circle,#5A1629 0%,rgba(18,5,9,0) 65%)}
+#g2{width:1300px;height:1300px;left:-640px;top:1050px;background:radial-gradient(circle,#3A0F1D 0%,rgba(18,5,9,0) 65%)}
+#grain{position:absolute;inset:0;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>")}
+#brand{position:absolute;top:150px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:22px}
+#brand svg{width:58px;height:84px}
+#brand .w{font-family:Bodoni;font-style:italic;font-weight:500;font-size:50px;line-height:1}
+#brand .s{font-weight:600;font-size:17px;letter-spacing:8px;color:var(--gold);margin-top:6px}
+#foot{position:absolute;bottom:250px;left:0;right:0;text-align:center;font-size:24px;color:var(--muted)}
+#foot b{display:block;color:var(--ivory);font-weight:600;font-size:30px;margin-bottom:14px}
+#bar{position:absolute;top:96px;left:80px;right:80px;height:4px;background:rgba(212,176,106,.18)}
+#bar i{display:block;height:100%;width:100%;background:var(--gold);transform-origin:left;transform:scaleX(0)}
+.scene{position:absolute;inset:0;opacity:0}
+.c{position:absolute;left:90px;right:90px;text-align:center}
+.eyebrow{font-weight:600;font-size:30px;letter-spacing:10px;color:var(--gold)}
+.big{font-family:Bodoni;font-weight:400;font-size:118px;line-height:1.06}
+.big em{font-style:italic;font-weight:500;color:var(--gold)}
+.body{font-size:44px;line-height:1.42;color:rgba(244,237,228,.9)}
+.word{display:inline-block;opacity:0}
+.card{position:absolute;left:90px;right:90px;background:#F4EDE4;color:var(--ink);text-align:center;padding:70px 50px 64px}
+.card:before{content:"";position:absolute;inset:16px;border:1.6px solid #B8975A;pointer-events:none}
+.card .k{font-weight:600;font-size:27px;letter-spacing:8px;color:var(--wine)}
+.card .n{font-family:Bodoni;font-style:italic;font-weight:500;font-size:66px;line-height:1.1;margin-top:34px}
+.card .d{font-size:31px;color:var(--pm);margin-top:22px}
+.card .p{font-family:Bodoni;font-weight:500;font-size:190px;line-height:1;margin-top:56px;letter-spacing:-2px}
+.card .p small{font-size:80px;margin-right:12px}
+.card .kit{font-size:33px;color:var(--pm);margin-top:20px}
+.card .selo{display:inline-block;background:var(--wine);color:#F4EDE4;font-weight:600;font-size:34px;letter-spacing:6px;padding:20px 44px;margin-top:44px}
+.btn{display:inline-block;background:var(--gold);color:var(--ink);font-weight:600;font-size:40px;letter-spacing:8px;padding:34px 70px}
+.facts{list-style:none;text-align:left;margin:0 auto;max-width:860px}
+.facts li{font-size:42px;line-height:1.35;padding:26px 0 26px 66px;position:relative;border-top:1px solid rgba(212,176,106,.25);opacity:0}
+.facts li:before{content:"";position:absolute;left:8px;top:44px;width:22px;height:22px;transform:rotate(45deg);border:2px solid var(--gold)}
+#grape path,#grape circle{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#grape .fillc{fill:var(--wine);stroke:none;opacity:0}
+</style></head>
+<body><div id="stage">
+<div class="glow" id="g1"></div><div class="glow" id="g2"></div><div id="grain"></div>
+<div id="bar"><i></i></div>
+<div id="brand"><svg viewBox="0 0 64 92"><g><path d="M12.56,31.00 L51.44,31.00 L32.00,56.00 Z" fill="#8E1F3B"/><g fill="none" stroke="#D4B06A" stroke-width="1.60" stroke-linecap="round" stroke-linejoin="round"><path d="M19.00,7.00 L45.00,7.00 L60.00,20.00 L32.00,56.00 L4.00,20.00 Z"/><line x1="4.00" y1="20.00" x2="60.00" y2="20.00"/><line x1="19.00" y1="7.00" x2="12.00" y2="20.00"/><line x1="45.00" y1="7.00" x2="52.00" y2="20.00"/><line x1="19.00" y1="7.00" x2="32.00" y2="20.00"/><line x1="45.00" y1="7.00" x2="32.00" y2="20.00"/><line x1="12.00" y1="20.00" x2="32.00" y2="56.00"/><line x1="52.00" y1="20.00" x2="32.00" y2="56.00"/><line x1="32.00" y1="20.00" x2="32.00" y2="56.00"/><line x1="32.00" y1="56.00" x2="32.00" y2="86.00"/><path d="M17.00,88.00 Q32.00,83.00 47.00,88.00"/></g><circle cx="32.00" cy="3.00" r="1.40" fill="#D4B06A"/></g></svg><div><div class="w">Garimpo</div><div class="s">DO VINHO</div></div></div>
+<div id="scenes"></div>
+<div id="foot"><b>@ogarimpodovinho</b>Beba com moderação. Proibido para menores de 18 anos.</div>
+</div>
+<script>window.SPEC=__SPEC__;</script>
+<script>
+const E = (t, h) => { const d = document.createElement("div"); d.innerHTML = h.trim(); return d.firstElementChild; };
+const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const brl = (v) => v.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+// cacho de uva em traço dourado (ilustração própria)
+function grapeSvg() {
+  const pts = [[0,0],[-1,0],[1,0],[-1.5,.87],[-.5,.87],[.5,.87],[1.5,.87],[-1,1.74],[0,1.74],[1,1.74],[-.5,2.61],[.5,2.61],[0,3.48]];
+  const r = 46, sx = 92, ox = 270, oy = 250;
+  const cs = pts.map(([x,y]) => `<circle class="b" cx="${ox + x*sx}" cy="${oy + y*sx*0.92}" r="${r}"/>`).join("");
+  const fills = pts.map(([x,y]) => `<circle class="fillc" cx="${ox + x*sx}" cy="${oy + y*sx*0.92}" r="${r - 6}"/>`).join("");
+  return `<svg id="grape" width="460" height="545" viewBox="0 0 540 640">${fills}
+    <path class="b" d="M270 200 C268 150 280 110 300 70"/>
+    <path class="b" d="M290 120 C330 70 400 60 450 90 C420 120 380 150 330 140 C310 136 298 130 290 120 Z"/>
+    <path class="b" d="M300 80 C330 50 350 40 380 38"/>${cs}</svg>`;
+}
+const SCENES = [];
+function addAnim(el, kf, start, dur, easing = "cubic-bezier(.2,.7,.2,1)", fill = "both") {
+  el.animate(kf, { delay: start * 1000, duration: dur * 1000, fill, easing });
+}
+function build(spec) {
+  const root = document.getElementById("scenes");
+  let t = 0; const total = spec.cenas.reduce((a, c) => a + c.dur, 0);
+  addAnim(document.querySelector("#bar i"), [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], 0, total, "linear");
+  addAnim(document.getElementById("g1"), [{ transform: "translate(0,0) scale(1)" }, { transform: "translate(-120px,80px) scale(1.15)" }], 0, total, "ease-in-out");
+  addAnim(document.getElementById("g2"), [{ transform: "translate(0,0)" }, { transform: "translate(160px,-120px)" }], 0, total, "ease-in-out");
+  spec.cenas.forEach((c, i) => {
+    let el;
+    if (c.tipo === "gancho") {
+      const words = c.titulo.split(" ").map((w) => `<span class="word">${w.startsWith("*") ? `<em>${esc(w.slice(1))}</em>` : esc(w)}</span>`).join(" ");
+      el = E("div", `<div class="scene"><div class="c" style="top:640px"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="big" style="margin-top:60px">${words}</div><div class="body" style="margin-top:60px">${esc(c.sub || "")}</div></div></div>`);
+      root.appendChild(el);
+      el.querySelectorAll(".word").forEach((w, j) => addAnim(w, [{ opacity: 0, transform: "translateY(40px)", filter: "blur(8px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }], t + 0.25 + j * 0.16, 0.7));
+      addAnim(el.querySelector(".eyebrow"), [{ opacity: 0, letterSpacing: "24px" }, { opacity: 1, letterSpacing: "10px" }], t + 0.05, 0.9);
+      addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.6 + c.titulo.split(" ").length * 0.16, 0.8);
+    } else if (c.tipo === "uva") {
+      const lis = c.fatos.map((f) => `<li>${esc(f)}</li>`).join("");
+      el = E("div", `<div class="scene"><div class="c" style="top:310px">${grapeSvg()}</div><div class="c" style="top:900px"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="big" style="font-size:132px;margin-top:24px"><em>${esc(c.uva)}</em></div><ul class="facts" style="margin-top:40px">${lis}</ul></div></div>`);
+      root.appendChild(el);
+      el.querySelectorAll("#grape .b").forEach((p, j) => {
+        const L = p.getTotalLength ? p.getTotalLength() : 400;
+        p.style.strokeDasharray = L;
+        addAnim(p, [{ strokeDashoffset: L }, { strokeDashoffset: 0 }], t + 0.1 + j * 0.06, 1.1, "ease-out");
+      });
+      el.querySelectorAll("#grape .fillc").forEach((p, j) => addAnim(p, [{ opacity: 0 }, { opacity: 0.55 }], t + 1.1 + j * 0.04, 0.6));
+      addAnim(el.querySelector(".big"), [{ opacity: 0, transform: "scale(.92)" }, { opacity: 1, transform: "none" }], t + 0.5, 0.9);
+      el.querySelectorAll(".facts li").forEach((li, j) => addAnim(li, [{ opacity: 0, transform: "translateX(-50px)" }, { opacity: 1, transform: "none" }], t + 1.2 + j * 0.45, 0.7));
+    } else if (c.tipo === "oferta") {
+      el = E("div", `<div class="scene"><div class="card" style="top:470px"><div class="k">${esc(c.kicker)}</div><div class="n">${esc(c.nome)}</div><div class="d">${esc(c.detalhe)}</div><div class="p"><small>R$</small><span class="num">0,00</span></div><div class="kit">${esc(c.kit)}</div><div class="selo">${esc(c.selo)}</div></div></div>`);
+      root.appendChild(el);
+      addAnim(el.querySelector(".card"), [{ opacity: 0, transform: "translateY(160px) rotate(-2deg)" }, { opacity: 1, transform: "none" }], t + 0.1, 0.9);
+      const num = el.querySelector(".num");
+      SCENES.push({ count: { el: num, from: c.preco * 1.6, to: c.preco, start: t + 0.6, dur: 1.2 } });
+      addAnim(el.querySelector(".selo"), [{ opacity: 0, transform: "scale(.6)" }, { opacity: 1, transform: "scale(1.08)" }, { transform: "scale(1)" }], t + 1.8, 0.6);
+    } else if (c.tipo === "cta") {
+      el = E("div", `<div class="scene"><div class="c" style="top:640px"><div class="big">${c.linhas.map((l, j) => j === c.linhas.length - 1 ? `<em>${esc(l)}</em>` : esc(l)).join("<br>")}</div><div class="body" style="margin-top:56px">${esc(c.sub)}</div><div style="margin-top:80px"><span class="btn">${esc(c.botao)}</span></div></div></div>`);
+      root.appendChild(el);
+      addAnim(el.querySelector(".big"), [{ opacity: 0, transform: "translateY(50px)" }, { opacity: 1, transform: "none" }], t + 0.15, 0.9);
+      addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.7, 0.8);
+      addAnim(el.querySelector(".btn"), [{ opacity: 0, transform: "scale(.8)" }, { opacity: 1, transform: "scale(1.06)" }, { transform: "scale(1)" }], t + 1.1, 0.7);
+      addAnim(el.querySelector(".btn"), [{ boxShadow: "0 0 0 0 rgba(212,176,106,.6)" }, { boxShadow: "0 0 0 40px rgba(212,176,106,0)" }], t + 1.9, 1.2, "ease-out");
+    }
+    // entrada/saída da cena
+    const fin = 0.45;
+    addAnim(el, [{ opacity: 0 }, { opacity: 1 }], t, fin);
+    if (i < spec.cenas.length - 1) addAnim(el, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-40px)" }], t + c.dur - fin, fin, "ease-in", "forwards");
+    else el.style.opacity = 1;
+    t += c.dur;
+  });
+  return total;
+}
+window.seek = (s) => {
+  document.getAnimations().forEach((a) => { a.pause(); a.currentTime = s * 1000; });
+  SCENES.forEach(({ count: k }) => {
+    const p = Math.min(1, Math.max(0, (s - k.start) / k.dur)), e = 1 - Math.pow(1 - p, 3);
+    k.el.textContent = brl(k.from + (k.to - k.from) * e);
+  });
+};
+window.TOTAL = build(window.SPEC);
+</script></body></html>

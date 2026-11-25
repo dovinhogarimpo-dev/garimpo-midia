@@ -1,0 +1,6 @@
+{"cenas":[
+ {"tipo":"gancho","dur":3.2,"eyebrow":"ACHADO DO DIA","titulo":"Tinto espanhol por *R$ 28,90?","sub":"Calma que tem história."},
+ {"tipo":"uva","dur":4.6,"eyebrow":"CONHEÇA A UVA","uva":"Bobal","fatos":["Nativa de Valência, no leste da Espanha","Uma das tintas mais plantadas do país","Fruta escura, macia e fácil de beber"]},
+ {"tipo":"oferta","dur":4.2,"kicker":"ENTERIZO · UTIEL-REQUENA","nome":"Bobal-Tempranillo DOP","detalhe":"Espanha · Tinto · Vegano","preco":28.9,"kit":"a garrafa no kit de 6 na Evino","selo":"ACHADO"},
+ {"tipo":"cta","dur":3.6,"linhas":["Salva pra","não esquecer"],"sub":"Link com o preço de hoje na bio","botao":"LINK NA BIO"}
+]}
