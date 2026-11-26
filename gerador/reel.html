@@ -97,9 +97,15 @@ function build(spec) {
       const words = c.titulo.split(" ").map((w) => `<span class="word">${w.startsWith("*") ? `<em>${esc(w.slice(1))}</em>` : esc(w)}</span>`).join(" ");
       el = E("div", `<div class="scene"><div class="c" style="top:640px"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="big" style="margin-top:60px">${words}</div><div class="body" style="margin-top:60px">${esc(c.sub || "")}</div></div></div>`);
       root.appendChild(el);
-      el.querySelectorAll(".word").forEach((w, j) => addAnim(w, [{ opacity: 0, transform: "translateY(40px)", filter: "blur(8px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }], t + 0.25 + j * 0.16, 0.7));
-      addAnim(el.querySelector(".eyebrow"), [{ opacity: 0, letterSpacing: "24px" }, { opacity: 1, letterSpacing: "10px" }], t + 0.05, 0.9);
-      addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.6 + c.titulo.split(" ").length * 0.16, 0.8);
+      if (i === 0) {
+        // primeiro quadro já com o gancho inteiro na tela (o Instagram decide em ~1 s)
+        el.querySelectorAll(".word").forEach((w) => { w.style.opacity = 1; }); addAnim(el.querySelector(".big"), [{ transform: "scale(1.08)" }, { transform: "scale(1)" }], t, 0.6);
+        addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.5, 0.5);
+      } else {
+        el.querySelectorAll(".word").forEach((w, j) => addAnim(w, [{ opacity: 0, transform: "translateY(40px)", filter: "blur(8px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }], t + 0.25 + j * 0.16, 0.7));
+        addAnim(el.querySelector(".eyebrow"), [{ opacity: 0, letterSpacing: "24px" }, { opacity: 1, letterSpacing: "10px" }], t + 0.05, 0.9);
+        addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.6 + c.titulo.split(" ").length * 0.16, 0.8);
+      }
     } else if (c.tipo === "uva") {
       const lis = c.fatos.map((f) => `<li>${esc(f)}</li>`).join("");
       el = E("div", `<div class="scene"><div class="c" style="top:310px">${grapeSvg()}</div><div class="c" style="top:900px"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="big" style="font-size:132px;margin-top:24px"><em>${esc(c.uva)}</em></div><ul class="facts" style="margin-top:40px">${lis}</ul></div></div>`);
@@ -125,12 +131,19 @@ function build(spec) {
       el = E("div", `<div class="scene">${rows}<div class="c" style="top:700px"><span class="bfbadge">${esc(c.selo || "É HOJE")}</span><div class="big" style="margin-top:50px;font-size:112px">${words}</div><div class="body" style="margin-top:44px">${esc(c.sub || "")}</div></div></div>`);
       root.appendChild(el);
       el.querySelectorAll(".marq").forEach((m, j) => {
-        addAnim(m, [{ opacity: 0 }, { opacity: 1 }], t + 0.05 * j, 0.5);
+        if (i !== 0) addAnim(m, [{ opacity: 0 }, { opacity: 1 }], t + 0.05 * j, 0.5);
         addAnim(m, [{ transform: `translateX(${j % 2 ? -600 : 0}px)` }, { transform: `translateX(${j % 2 ? 0 : -600}px)` }], t, c.dur, "linear");
       });
-      addAnim(el.querySelector(".bfbadge"), [{ opacity: 0, transform: "scale(1.6)" }, { opacity: 1, transform: "scale(.94)" }, { transform: "scale(1)" }], t + 0.15, 0.6);
-      el.querySelectorAll(".word").forEach((w, j) => addAnim(w, [{ opacity: 0, transform: "translateY(50px) scale(.9)" }, { opacity: 1, transform: "none" }], t + 0.55 + j * 0.13, 0.55));
-      addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.9 + c.titulo.split(" ").length * 0.13, 0.6);
+      if (i === 0) {
+        el.querySelectorAll(".marq").forEach((m) => m.style.opacity = 1);
+        addAnim(el.querySelector(".bfbadge"), [{ transform: "scale(1.25)" }, { transform: "scale(1)" }], t, 0.45);
+        el.querySelectorAll(".word").forEach((w) => { w.style.opacity = 1; }); addAnim(el.querySelector(".big"), [{ transform: "scale(1.08)" }, { transform: "scale(1)" }], t, 0.6);
+        addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.5, 0.5);
+      } else {
+        addAnim(el.querySelector(".bfbadge"), [{ opacity: 0, transform: "scale(1.6)" }, { opacity: 1, transform: "scale(.94)" }, { transform: "scale(1)" }], t + 0.15, 0.6);
+        el.querySelectorAll(".word").forEach((w, j) => addAnim(w, [{ opacity: 0, transform: "translateY(50px) scale(.9)" }, { opacity: 1, transform: "none" }], t + 0.55 + j * 0.13, 0.55));
+        addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.9 + c.titulo.split(" ").length * 0.13, 0.6);
+      }
     } else if (c.tipo === "top") {
       const lis = c.itens.slice(0, 3).map((it, j) => `<li><div class="pos">${j + 1}</div><div><div class="nm">${esc(it.nome)}</div><div class="dt">${esc(it.detalhe)}</div></div><div class="pr"><small>R$</small><b class="num" data-to="${it.preco}">0,00</b><span>${esc(it.kit || "a garrafa")}</span></div></li>`).join("");
       el = E("div", `<div class="scene"><div class="c" style="top:470px"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="big" style="font-size:96px;margin-top:24px">${esc(c.titulo)}</div><ul class="top" style="margin-top:56px">${lis}</ul></div></div>`);
@@ -152,7 +165,7 @@ function build(spec) {
     }
     // entrada/saída da cena
     const fin = 0.45;
-    addAnim(el, [{ opacity: 0 }, { opacity: 1 }], t, fin);
+    if (i === 0) el.style.opacity = 1; else addAnim(el, [{ opacity: 0 }, { opacity: 1 }], t, fin);
     if (i < spec.cenas.length - 1) addAnim(el, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-40px)" }], t + c.dur - fin, fin, "ease-in", "forwards");
     else el.style.opacity = 1;
     t += c.dur;
