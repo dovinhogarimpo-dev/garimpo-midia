@@ -17,6 +17,8 @@ Dica: 12 a 18 s no total; textos curtos.
 - `uva` {dur, eyebrow, uva, fatos[] (até 3, curtos)}: cacho de uva ilustrado se desenhando.
 - `oferta` {dur, kicker, nome, detalhe, preco (number), kit, selo}: cartão com o preço "caindo" até o valor.
 - `cta` {dur, linhas[] (a última em dourado), sub, botao}.
+- `bf` {dur, topo ("BLACK FRIDAY"), selo ("É HOJE"), titulo, sub}: abertura de data especial com faixas correndo ao fundo. Use `*` em cada palavra que deve ficar dourada.
+- `top` {dur (5–6 s), eyebrow, titulo, itens[{nome, detalhe, preco (number), kit?}] (até 3)}: ranking com os preços aparecendo um a um.
 
 ## URL pública (para o Metricool)
 

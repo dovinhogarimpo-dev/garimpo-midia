@@ -1,0 +1,6 @@
+{"cenas":[
+ {"tipo":"bf","dur":3.4,"topo":"BLACK FRIDAY","selo":"É HOJE","titulo":"Os melhores vinhos *do ano","sub":"Garimpamos tudo pra você."},
+ {"tipo":"top","dur":5.6,"eyebrow":"TOP 3 DO DIA","titulo":"Achados até R$ 30","itens":[{"nome":"Kit Expedicion","detalhe":"12 tintos chilenos","preco":21.9},{"nome":"Imperdíveis do Chile","detalhe":"Kit com 12 tintos","preco":22.9},{"nome":"Enterizo Bobal","detalhe":"Tinto espanhol","preco":28.9}]},
+ {"tipo":"oferta","dur":4.0,"kicker":"93 PONTOS EM NOVA YORK","nome":"Portada Selection","detalhe":"Portugal · Lisboa · Tinto","preco":49.9,"kit":"a garrafa no kit de 6 na Evino","selo":"PREMIADO"},
+ {"tipo":"cta","dur":3.4,"linhas":["Corre que","é hoje"],"sub":"Todos os links com preço conferido na bio","botao":"LINK NA BIO"}
+]}

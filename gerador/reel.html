@@ -43,6 +43,18 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
 .facts{list-style:none;text-align:left;margin:0 auto;max-width:860px}
 .facts li{font-size:42px;line-height:1.35;padding:26px 0 26px 66px;position:relative;border-top:1px solid rgba(212,176,106,.25);opacity:0}
 .facts li:before{content:"";position:absolute;left:8px;top:44px;width:22px;height:22px;transform:rotate(45deg);border:2px solid var(--gold)}
+.marq{position:absolute;left:-200px;right:-200px;white-space:nowrap;font-weight:600;font-size:120px;letter-spacing:6px;line-height:1;opacity:.0}
+.marq.o{color:transparent;-webkit-text-stroke:2px rgba(212,176,106,.55)}
+.marq.f{color:rgba(142,31,59,.9)}
+.bfbadge{display:inline-block;background:var(--wine);color:#F4EDE4;font-weight:600;font-size:34px;letter-spacing:12px;padding:18px 40px}
+.top{list-style:none;margin:0 auto;max-width:900px;text-align:left}
+.top li{display:grid;grid-template-columns:92px 1fr auto;align-items:center;gap:24px;padding:30px 0;border-top:1px solid rgba(212,176,106,.3);opacity:0}
+.top .pos{font-family:Bodoni;font-style:italic;font-weight:500;font-size:96px;color:var(--gold);line-height:1}
+.top .nm{font-family:Bodoni;font-weight:500;font-size:46px;line-height:1.1}
+.top .dt{font-size:30px;color:var(--muted);margin-top:8px}
+.top .pr{font-family:Bodoni;font-weight:500;font-size:74px;color:var(--ivory);white-space:nowrap}
+.top .pr small{font-size:34px;margin-right:6px}
+.top .pr span{display:block;font-family:Sans;font-size:26px;color:var(--muted);text-align:right;margin-top:4px}
 #grape path,#grape circle{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 #grape .fillc{fill:var(--wine);stroke:none;opacity:0}
 </style></head>
@@ -107,6 +119,29 @@ function build(spec) {
       const num = el.querySelector(".num");
       SCENES.push({ count: { el: num, from: c.preco * 1.6, to: c.preco, start: t + 0.6, dur: 1.2 } });
       addAnim(el.querySelector(".selo"), [{ opacity: 0, transform: "scale(.6)" }, { opacity: 1, transform: "scale(1.08)" }, { transform: "scale(1)" }], t + 1.8, 0.6);
+    } else if (c.tipo === "bf") {
+      const words = c.titulo.split(" ").map((w) => `<span class="word">${w.startsWith("*") ? `<em>${esc(w.slice(1))}</em>` : esc(w)}</span>`).join(" ");
+      const rows = [380, 520, 1240, 1380].map((y, j) => `<div class="marq ${j % 2 ? "f" : "o"}" style="top:${y}px">${(esc(c.topo || "BLACK FRIDAY") + " · ").repeat(6)}</div>`).join("");
+      el = E("div", `<div class="scene">${rows}<div class="c" style="top:700px"><span class="bfbadge">${esc(c.selo || "É HOJE")}</span><div class="big" style="margin-top:50px;font-size:112px">${words}</div><div class="body" style="margin-top:44px">${esc(c.sub || "")}</div></div></div>`);
+      root.appendChild(el);
+      el.querySelectorAll(".marq").forEach((m, j) => {
+        addAnim(m, [{ opacity: 0 }, { opacity: 1 }], t + 0.05 * j, 0.5);
+        addAnim(m, [{ transform: `translateX(${j % 2 ? -600 : 0}px)` }, { transform: `translateX(${j % 2 ? 0 : -600}px)` }], t, c.dur, "linear");
+      });
+      addAnim(el.querySelector(".bfbadge"), [{ opacity: 0, transform: "scale(1.6)" }, { opacity: 1, transform: "scale(.94)" }, { transform: "scale(1)" }], t + 0.15, 0.6);
+      el.querySelectorAll(".word").forEach((w, j) => addAnim(w, [{ opacity: 0, transform: "translateY(50px) scale(.9)" }, { opacity: 1, transform: "none" }], t + 0.55 + j * 0.13, 0.55));
+      addAnim(el.querySelector(".body"), [{ opacity: 0 }, { opacity: 1 }], t + 0.9 + c.titulo.split(" ").length * 0.13, 0.6);
+    } else if (c.tipo === "top") {
+      const lis = c.itens.slice(0, 3).map((it, j) => `<li><div class="pos">${j + 1}</div><div><div class="nm">${esc(it.nome)}</div><div class="dt">${esc(it.detalhe)}</div></div><div class="pr"><small>R$</small><b class="num" data-to="${it.preco}">0,00</b><span>${esc(it.kit || "a garrafa")}</span></div></li>`).join("");
+      el = E("div", `<div class="scene"><div class="c" style="top:470px"><div class="eyebrow">${esc(c.eyebrow)}</div><div class="big" style="font-size:96px;margin-top:24px">${esc(c.titulo)}</div><ul class="top" style="margin-top:56px">${lis}</ul></div></div>`);
+      root.appendChild(el);
+      addAnim(el.querySelector(".big"), [{ opacity: 0, transform: "translateY(30px)" }, { opacity: 1, transform: "none" }], t + 0.1, 0.6);
+      const gap = Math.max(0.6, (c.dur - 1.6) / 3);
+      el.querySelectorAll(".top li").forEach((li, j) => {
+        addAnim(li, [{ opacity: 0, transform: "translateX(80px)" }, { opacity: 1, transform: "none" }], t + 0.5 + j * gap, 0.5);
+        const b = li.querySelector("b[data-to]"); const to = parseFloat(b.dataset.to);
+        SCENES.push({ count: { el: b, from: to * 1.8, to, start: t + 0.6 + j * gap, dur: 0.8 } });
+      });
     } else if (c.tipo === "cta") {
       el = E("div", `<div class="scene"><div class="c" style="top:640px"><div class="big">${c.linhas.map((l, j) => j === c.linhas.length - 1 ? `<em>${esc(l)}</em>` : esc(l)).join("<br>")}</div><div class="body" style="margin-top:56px">${esc(c.sub)}</div><div style="margin-top:80px"><span class="btn">${esc(c.botao)}</span></div></div></div>`);
       root.appendChild(el);
