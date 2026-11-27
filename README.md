@@ -23,3 +23,16 @@ Dica: 12 a 18 s no total; textos curtos.
 ## URL pública (para o Metricool)
 
 `https://raw.githubusercontent.com/dovinhogarimpo-dev/garimpo-midia/main/reels/<arquivo>.mp4`
+
+## Carrossel (slides em arquivos estáticos)
+
+Desde 27/11, os carrosséis são publicados a partir de JPGs no GitHub. Servir as imagens pela função do Supabase gerava, às vezes, uma imagem cinza/corrompida quando o Metricool baixava as 8 ao mesmo tempo.
+
+```bash
+bash gerador/slides/render_slides.sh slides.json posts/AAAAMMDD-feed
+# gera posts/AAAAMMDD-feed/1.jpg ... N.jpg (1080x1350)
+```
+
+- Formato do JSON: lista de slides, nos tipos capa, texto, destaque, lista e cta. É o mesmo formato da tabela post_slides.
+- URL pública: `https://raw.githubusercontent.com/dovinhogarimpo-dev/garimpo-midia/main/posts/AAAAMMDD-feed/N.jpg`
+- Confira 2 ou 3 slides (Read) antes de publicar.
