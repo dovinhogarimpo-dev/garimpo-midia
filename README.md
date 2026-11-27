@@ -36,3 +36,11 @@ bash gerador/slides/render_slides.sh slides.json posts/AAAAMMDD-feed
 - Formato do JSON: lista de slides, nos tipos capa, texto, destaque, lista e cta. É o mesmo formato da tabela post_slides.
 - URL pública: `https://raw.githubusercontent.com/dovinhogarimpo-dev/garimpo-midia/main/posts/AAAAMMDD-feed/N.jpg`
 - Confira 2 ou 3 slides (Read) antes de publicar.
+
+## Fotos livres nos carrosséis (27/11)
+- O número do slide (ex.: 3/8) foi removido: o Instagram já mostra a paginação.
+- Novo tipo de slide `foto` (`eyebrow`, `titulo`, `sub`, `foto`, `credito`) e `capa` com `foto` opcional.
+- Fotos só de bancos livres (Pexels/Unsplash/Pixabay/Wikimedia), sem pessoas e sem marcas; banco curado na tabela `fotos` do Supabase.
+- Slides com foto são gerados pela Edge Function `post-img` com `salvar=1` (um por vez) e ficam em
+  `https://lmmboyuzbopqewlzcbgs.supabase.co/storage/v1/object/public/midia/posts/<post>/<n>.jpg`.
+- Crédito no canto: "Foto: Autor / Pexels".

@@ -2,7 +2,8 @@
 import { Resvg, initWasm } from "npm:@resvg/resvg-wasm@2.6.2";
 
 export type Slide =
-  | { tipo: "capa"; eyebrow: string; linhas: string[]; destaque?: number[]; sub: string }
+  | { tipo: "capa"; eyebrow: string; linhas: string[]; destaque?: number[]; sub: string; foto?: string; foto_data?: string; credito?: string }
+  | { tipo: "foto"; eyebrow: string; titulo: string; sub?: string; foto?: string; foto_data?: string; credito?: string }
   | { tipo: "verificado"; kicker: string; nome: string; detalhe: string; preco: number; kit: string;
       anunc: number; real: number; de: number; ref: number; refLbl: string; fonte: string }
   | { tipo: "lista"; titulo: string; sub: string; itens: { nome: string; kit: string; preco: number; anunc: number }[]; nota: string }
@@ -37,17 +38,24 @@ function textLines(lines: string[], x: number, y: number, size: number, lh: numb
   return lines.map((l, i) => `<text x="${x}" y="${y + i * lh}" font-size="${size}" ${attrs}>${esc(l)}</text>`).join("");
 }
 
-function frame(inner: string, n: number, total: number) {
+function photoLayer(data?: string) {
+  if (!data) return "";
+  return `<image href="${data}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/>
+  <rect width="${W}" height="${H}" fill="${BG}" fill-opacity="0.38"/>
+  <rect width="${W}" height="${H}" fill="url(#fadeB)"/><rect width="${W}" height="${H}" fill="url(#fadeT)"/>`;
+}
+function frame(inner: string, n: number, total: number, foto?: string) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <defs>
     <radialGradient id="glow" cx="78%" cy="22%" r="75%"><stop offset="0" stop-color="#4A1225" stop-opacity="0.9"/><stop offset="1" stop-color="${BG}" stop-opacity="0"/></radialGradient>
     <radialGradient id="glow2" cx="0%" cy="100%" r="60%"><stop offset="0" stop-color="#3A0F1D" stop-opacity="0.8"/><stop offset="1" stop-color="${BG}" stop-opacity="0"/></radialGradient>
+    <linearGradient id="fadeB" x1="0" y1="0" x2="0" y2="1"><stop offset="0.3" stop-color="${BG}" stop-opacity="0"/><stop offset="0.78" stop-color="${BG}" stop-opacity="0.88"/><stop offset="1" stop-color="${BG}" stop-opacity="0.97"/></linearGradient>
+    <linearGradient id="fadeT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${BG}" stop-opacity="0.75"/><stop offset="0.16" stop-color="${BG}" stop-opacity="0"/></linearGradient>
   </defs>
-  <rect width="${W}" height="${H}" fill="${BG}"/><rect width="${W}" height="${H}" fill="url(#glow)"/><rect width="${W}" height="${H}" fill="url(#glow2)"/>
+  <rect width="${W}" height="${H}" fill="${BG}"/><rect width="${W}" height="${H}" fill="url(#glow)"/><rect width="${W}" height="${H}" fill="url(#glow2)"/>${photoLayer(foto)}
   <g transform="translate(72,64) scale(0.62)">${MARK}</g>
   <text x="124" y="102" font-family="${SERIF}" font-style="italic" font-weight="500" font-size="34" fill="${IVORY}">Garimpo</text>
   <text x="126" y="124" font-family="${SANS}" font-weight="600" font-size="13" letter-spacing="5" fill="${GOLD}">DO VINHO</text>
-  <text x="${W - 72}" y="104" text-anchor="end" font-family="${SANS}" font-weight="600" font-size="22" letter-spacing="3" fill="${MUTED}">${n}/${total}</text>
   ${inner}
   <line x1="72" y1="${H - 108}" x2="${W - 72}" y2="${H - 108}" stroke="${GOLD}" stroke-opacity="0.3" stroke-width="1"/>
   <text x="72" y="${H - 66}" font-family="${SANS}" font-weight="600" font-size="22" fill="${IVORY}">@ogarimpodovinho</text>
@@ -63,7 +71,8 @@ function capa(s: Extract<Slide, { tipo: "capa" }>) {
     y += 128; return t;
   }).join("");
   const sub = textLines(wrap(s.sub, 34, 880, 0.48), 72, y + 40, 34, 48, `font-family="${SANS}" fill="${MUTED}"`);
-  return `<line x1="72" y1="300" x2="128" y2="300" stroke="${GOLD}" stroke-width="2"/>
+  const cred = s.credito ? `<text x="${W - 72}" y="${H - 128}" text-anchor="end" font-family="${SANS}" font-size="17" fill="${MUTED}">${esc(s.credito)}</text>` : "";
+  return cred + `<line x1="72" y1="300" x2="128" y2="300" stroke="${GOLD}" stroke-width="2"/>
   <text x="146" y="308" font-family="${SANS}" font-weight="600" font-size="24" letter-spacing="6" fill="${GOLD}">${esc(s.eyebrow)}</text>${lines}${sub}`;
 }
 
@@ -201,6 +210,18 @@ function storyTexto(s: Extract<Slide, { tipo: "story_texto" }>) {
   return storyFrame(head + titulo + corpo + storyCta(s.cta, SH - 560));
 }
 
+function fotoSlide(s: Extract<Slide, { tipo: "foto" }>) {
+  const tl = wrap(s.titulo, 84, 940, 0.45);
+  const sl = s.sub ? wrap(s.sub, 34, 900, 0.48) : [];
+  let y = H - 190 - sl.length * 48 - (sl.length ? 26 : 0) - (tl.length - 1) * 94;
+  const eb = `<line x1="72" y1="${y - 118}" x2="128" y2="${y - 118}" stroke="${GOLD}" stroke-width="2"/>
+  <text x="146" y="${y - 110}" font-family="${SANS}" font-weight="600" font-size="24" letter-spacing="6" fill="${GOLD}">${esc(s.eyebrow)}</text>`;
+  const titulo = tl.map((l) => { const t = `<text x="72" y="${y}" font-family="${SERIF}" font-weight="400" font-size="84" fill="${IVORY}">${esc(l)}</text>`; y += 94; return t; }).join("");
+  const sub = textLines(sl, 72, y - 94 + 74, 34, 48, `font-family="${SANS}" fill="${IVORY}" fill-opacity="0.9"`);
+  const cred = s.credito ? `<text x="${W - 72}" y="${H - 128}" text-anchor="end" font-family="${SANS}" font-size="17" fill="${MUTED}">${esc(s.credito)}</text>` : "";
+  return eb + titulo + sub + cred;
+}
+
 function lista(s: Extract<Slide, { tipo: "lista" }>) {
   const tl = wrap(s.titulo, 72, 960, 0.44);
   let y = 290;
@@ -233,7 +254,9 @@ export function svgFor(s: Slide, n: number, total: number) {
   if (s.tipo === "story_oferta") return storyOferta(s);
   if (s.tipo === "story_texto") return storyTexto(s);
   if (s.tipo === "texto") return frame(texto(s), n, total);
-  const inner = s.tipo === "capa" ? capa(s) : s.tipo === "verificado" ? verificado(s) : s.tipo === "destaque" ? destaque(s) : s.tipo === "lista" ? lista(s) : cta(s);
+  if (s.tipo === "foto") return frame(fotoSlide(s), n, total, s.foto_data);
+  if (s.tipo === "capa") return frame(capa(s), n, total, s.foto_data);
+  const inner = s.tipo === "verificado" ? verificado(s) : s.tipo === "destaque" ? destaque(s) : s.tipo === "lista" ? lista(s) : cta(s);
   return frame(inner, n, total);
 }
 
